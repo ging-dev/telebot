@@ -1,22 +1,36 @@
 {
     "require": {
+        "ext-pcntl": "*",
         "badfarm/zanzara": "^0.8.0",
         "symfony/http-client": "^6.0",
         "react/filesystem": "^0.1.2",
         "workerman/workerman": "^4.0",
-        "react/mysql": "^0.5.6"
+        "react/mysql": "^0.5.6",
+        "cweagans/composer-patches": "^1.7",
+        "symfony/string": "^6.0",
+        "react/async": "^4@dev || ^3@dev || ^2@dev"
     },
     "autoload": {
         "classmap": [
             "src/"
-        ]
+        ],
+        "files": ["src/functions.php"]
     },
     "require-dev": {
-        "vimeo/psalm": "^4.23"
+        "vimeo/psalm": "^4.23",
+        "symplify/vendor-patches": "^10.2"
+    },
+    "extra": {
+        "patches": {
+            "badfarm/zanzara": [
+                "patches/badfarm-zanzara-src-zanzara-listener-listenerresolver-php.patch"
+            ]
+        }
     },
     "config": {
         "allow-plugins": {
-            "wyrihaximus/composer-update-bin-autoload-path": true
+            "wyrihaximus/composer-update-bin-autoload-path": true,
+            "cweagans/composer-patches": true
         }
     }
 }

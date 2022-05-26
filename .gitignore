@@ -1,2 +1,7 @@
+/.idea
 /vendor/
 momo.php
+test.php
+*.cache
+test.js
+.vscode

@@ -13,4 +13,8 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <TooManyTemplateParams errorLevel="suppress" />
+        <MixedPropertyFetch errorLevel="suppress" />
+    </issueHandlers>
 </psalm>

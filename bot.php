@@ -1,7 +1,6 @@
 <?php
 
 use GingTeam\React;
-use Psr\Http\Message\ResponseInterface;
 use React\EventLoop\Loop;
 use React\Http\Browser;
 use Workerman\Worker;
@@ -9,66 +8,63 @@ use Zanzara\Config;
 use Zanzara\Context;
 use Zanzara\Zanzara;
 
+use function Safe\file_get_contents;
+use function Symfony\Component\String\u;
+use function React\Async\await;
+
 require __DIR__.'/vendor/autoload.php';
 
 $config = new Config();
 $config->setLoop(Loop::get());
 
-$bot = new Zanzara('5338016928:AAEEJyoCazgqeIWsdSTKEETRUR2-w9SZJ6M', $config);
-$client = new Browser($bot->getLoop());
+$bot = new Zanzara((string) $_ENV['BOT_TOKEN'], $config);
+
+$bot->getContainer()->set('browser', new Browser($bot->getLoop()));
+
+$bot->onCommand('game', function (Context $ctx) {
+    changeQuestion($ctx);
+});
+
+$bot->onText('ans: {text}', function (Context $ctx, string $text) {
+    $current = getCurrentQuestion($ctx);
+    $opt = ['reply_to_message_id' => $ctx->getMessage()?->getMessageId()];
+
+    if ($text === 'skip') {
+        await($ctx->sendMessage('Đáp án: '.$current['result']));
+
+        changeQuestion($ctx);
+    } else if (u($text)->ascii()->lower() == u($current['result'])->ascii()->lower()) {
+        $name = $ctx->getMessage()?->getFrom()->getFirstName();
+
+        await($ctx->sendMessage(sprintf('Bạn %s đã trả lời chính xác', $name), $opt));
+
+        changeQuestion($ctx);
+    } else {
+        $ctx->sendMessage('Không chính xác...', $opt);
+    }
+});
 
 $bot->onCommand('start', function (Context $ctx) {
-    $ctx->sendMessage('Hello');
+    $ctx->sendMessage('Chào bạn');
 });
 
 $bot->onCommand('myid', function (Context $ctx) {
     $id = $ctx->getMessage()?->getFrom()->getId();
-
     $ctx->sendMessage('Your ID: '.$id);
 });
 
-$bot->onCommand('hentai', function (Context $ctx) use ($bot, $client) {
-    $bot->getLoop()->addPeriodicTimer(10, function () use ($ctx, $client) {
-        $client->get('http://api.nekos.fun:8080/api/cum')->then(function (ResponseInterface $response) use ($ctx) {
-            $image = json_decode((string) $response->getBody())->image;
-            if (\pathinfo($image, PATHINFO_EXTENSION) === 'gif') {
-                $ctx->sendChatAction('upload_video')->then(
-                    fn () => $ctx->sendAnimation($image)
-                );
-            } else {
-                $ctx->sendChatAction('upload_photo')->then(
-                    fn () => $ctx->sendPhoto($image)
-                );
-            }
-        });
-    });
-});
-
-$bot->onText('facebook {link}', function (Context $ctx, string $link) use ($client) {
-    $client->get('http://api.quangsangblog.com/api/facebook/video?url='.urlencode($link).'&apikey=Eris_m6FbAFJJQGwR2VZsiQuphnR5U3vkT5I')
-        ->then(function (ResponseInterface $response) use ($ctx) {
-            $video = json_decode((string) $response->getBody())->links->HD ?? false;
-            if ($video === false) {
-                $ctx->sendMessage('Đã xảy ra lỗi...');
-
-                return;
-            }
-
-            $ctx->sendChatAction('upload_video')->then(
-                fn () => $ctx->sendVideo($video)
-            );
-        });
-});
-
-$bot->fallback(function (Context $ctx) {
-    $ctx->sendMessage('Reply tin nhắn để bắt đầu');
-});
+$bot->onCommand('hentai', [CommandHandler::class, 'hentai']);
+$bot->onText('facebook {link}', [CommandHandler::class, 'facebook']);
 
 $worker = new Worker();
 $worker->name = 'Telebot';
 $worker::$eventLoopClass = React::class;
 
-$worker->onWorkerStart = function () use ($bot) {
+$worker->onWorkerStart = function () use ($bot): void {
+    /** @var array<int,array<string>> */
+    $batChu = json_decode(file_get_contents(__DIR__.'/result.json'), true);
+    $bot->getContainer()->set('batchu', $batChu);
+
     $bot->run();
 };
 

@@ -1,0 +1,13 @@
+--- /dev/null
++++ ../src/Zanzara/Listener/ListenerResolver.php
+@@ -109,6 +109,10 @@
+     {
+         if ($listenerId !== null) {
+             $typedListeners = $this->listeners[$listenerType] ?? [];
++            preg_match('/^\/([^\s@]+)@?(\S+)?\s?(.*)$/', $listenerId, $matches);
++            if (count($matches) === 4) {
++                $listenerId = str_replace('@'.$matches[2], '', $listenerId);
++            }
+             foreach ($typedListeners as $regex => $listener) {
+                 $regexMatched = (bool) preg_match($regex, $listenerId, $matches, PREG_UNMATCHED_AS_NULL);
+                 $filterPassed = $this->filterListener($update, $listener->getFilters());
