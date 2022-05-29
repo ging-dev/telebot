@@ -9,8 +9,6 @@ use Zanzara\Context;
 use Zanzara\Zanzara;
 
 use function Safe\file_get_contents;
-use function Symfony\Component\String\u;
-use function React\Async\await;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -21,38 +19,19 @@ $bot = new Zanzara((string) $_ENV['BOT_TOKEN'], $config);
 
 $bot->getContainer()->set('browser', new Browser($bot->getLoop()));
 
-$bot->onCommand('game', function (Context $ctx) {
-    changeQuestion($ctx);
-});
-
-$bot->onText('ans: {text}', function (Context $ctx, string $text) {
-    $current = getCurrentQuestion($ctx);
-    $opt = ['reply_to_message_id' => $ctx->getMessage()?->getMessageId()];
-
-    if ($text === 'skip') {
-        await($ctx->sendMessage('Đáp án: '.$current['result']));
-
-        changeQuestion($ctx);
-    } else if (u($text)->ascii()->lower() == u($current['result'])->ascii()->lower()) {
-        $name = $ctx->getMessage()?->getFrom()->getFirstName();
-
-        await($ctx->sendMessage(sprintf('Bạn %s đã trả lời chính xác', $name), $opt));
-
-        changeQuestion($ctx);
-    } else {
-        $ctx->sendMessage('Không chính xác...', $opt);
-    }
-});
-
 $bot->onCommand('start', function (Context $ctx) {
     $ctx->sendMessage('Chào bạn');
 });
 
 $bot->onCommand('myid', function (Context $ctx) {
     $id = $ctx->getMessage()?->getFrom()->getId();
+    $groupId = $ctx->getMessage()?->getChat()->getId();
     $ctx->sendMessage('Your ID: '.$id);
+    $ctx->sendMessage('Group ID: '.$groupId);
 });
 
+$bot->onCommand('game', [CatchPhrase::class, 'game']);
+$bot->onText('ans: {text}', [CatchPhrase::class, 'answer']);
 $bot->onCommand('hentai', [CommandHandler::class, 'hentai']);
 $bot->onText('facebook {link}', [CommandHandler::class, 'facebook']);
 

@@ -9,6 +9,7 @@
     <projectFiles>
         <directory name="src" />
         <file name="bot.php" />
+        <file name="test.php" />
         <ignoreFiles>
             <directory name="vendor" />
         </ignoreFiles>
@@ -16,5 +17,7 @@
     <issueHandlers>
         <TooManyTemplateParams errorLevel="suppress" />
         <MixedPropertyFetch errorLevel="suppress" />
+        <MixedReturnStatement errorLevel="suppress" />
+        <MixedInferredReturnType errorLevel="suppress" />
     </issueHandlers>
 </psalm>

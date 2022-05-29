@@ -32,7 +32,7 @@ class CommandHandler
         $client = $ctx->getContainer()->get('browser');
         $client->get('http://api.quangsangblog.com/api/facebook/video?url='.urlencode($link).'&apikey=Eris_m6FbAFJJQGwR2VZsiQuphnR5U3vkT5I')->then(function (ResponseInterface $response) use ($ctx) {
             /** @var string|false */
-            $video = json_decode((string) $response->getBody())->links->HD ?? false;
+            $video = json_decode((string) $response->getBody())->links->SD ?? false;
 
             if ($video === false) {
                 $ctx->sendMessage('Đã xảy ra lỗi...');
