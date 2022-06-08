@@ -1,16 +1,15 @@
 <?php
 
-use Zanzara\Context;
-
 use function React\Async\await;
 use function Symfony\Component\String\u;
+use Zanzara\Context;
 
 class CatchPhrase
 {
     public const IMAGE_URL = 'https://e.gamevui.vn/web/2014/10/batchu/assets/pics/';
 
     /**
-     * Lấy thông tin câu hỏi hiện tại
+     * Lấy thông tin câu hỏi hiện tại.
      *
      * @return array{
      *  image: string,
@@ -23,7 +22,6 @@ class CatchPhrase
     }
 
     /**
-     *
      * @return list<array{
      *  image: string,
      *  result: string,
@@ -35,7 +33,7 @@ class CatchPhrase
     }
 
     /**
-     * Chuyển câu hỏi
+     * Chuyển câu hỏi.
      *
      * @psalm-suppress UndefinedInterfaceMethod
      */
@@ -58,14 +56,20 @@ class CatchPhrase
         $current = self::getCurrentQuestion($ctx);
         $opt = ['reply_to_message_id' => $ctx->getMessage()?->getMessageId()];
 
-        if ($text === 'skip') {
+        if ('skip' === $text) {
             await($ctx->sendMessage('Đáp án: '.$current['result']));
 
             self::changeQuestion($ctx);
         } elseif (u($text)->ascii()->lower() == u($current['result'])->ascii()->lower()) {
             $name = $ctx->getMessage()?->getFrom()->getFirstName();
 
-            await($ctx->sendMessage(sprintf('Bạn %s đã trả lời chính xác', $name), $opt));
+            if (5214954937 === $ctx->getMessage()?->getFrom()->getId()) {
+                $message = 'Chồng yêu đã trả lời chính xác! 😍';
+            } else {
+                $message = sprintf('Bạn %s đã trả lời chính xác! 😊', $name);
+            }
+
+            await($ctx->sendMessage($message, $opt));
 
             self::changeQuestion($ctx);
         } else {

@@ -9,7 +9,6 @@
     <projectFiles>
         <directory name="src" />
         <file name="bot.php" />
-        <file name="test.php" />
         <ignoreFiles>
             <directory name="vendor" />
         </ignoreFiles>

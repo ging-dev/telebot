@@ -7,7 +7,8 @@
         "workerman/workerman": "^4.0",
         "cweagans/composer-patches": "^1.7",
         "symfony/string": "^6.0",
-        "react/async": "^4@dev"
+        "react/async": "^4@dev",
+        "gingteam/tiktok": "dev-main"
     },
     "autoload": {
         "classmap": [

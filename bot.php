@@ -1,14 +1,12 @@
 <?php
 
-use GingTeam\React;
 use React\EventLoop\Loop;
 use React\Http\Browser;
-use Workerman\Worker;
+use function Safe\file_get_contents;
+use function Safe\json_decode;
 use Zanzara\Config;
 use Zanzara\Context;
 use Zanzara\Zanzara;
-
-use function Safe\file_get_contents;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -33,18 +31,12 @@ $bot->onCommand('myid', function (Context $ctx) {
 $bot->onCommand('game', [CatchPhrase::class, 'game']);
 $bot->onText('ans: {text}', [CatchPhrase::class, 'answer']);
 $bot->onCommand('hentai', [CommandHandler::class, 'hentai']);
+$bot->onCommand('admin', [CommandHandler::class, 'admin']);
+$bot->onText('tiktok {link}', [CommandHandler::class, 'tiktok']);
 $bot->onText('facebook {link}', [CommandHandler::class, 'facebook']);
 
-$worker = new Worker();
-$worker->name = 'Telebot';
-$worker::$eventLoopClass = React::class;
+/** @var array<int,array<string>> */
+$batChu = json_decode(file_get_contents(__DIR__.'/result.json'), true);
+$bot->getContainer()->set('batchu', $batChu);
 
-$worker->onWorkerStart = function () use ($bot): void {
-    /** @var array<int,array<string>> */
-    $batChu = json_decode(file_get_contents(__DIR__.'/result.json'), true);
-    $bot->getContainer()->set('batchu', $batChu);
-
-    $bot->run();
-};
-
-Worker::runAll();
+$bot->run();

@@ -1,48 +1,85 @@
 <?php
 
 use Psr\Http\Message\ResponseInterface;
-use React\Http\Browser;
+use TikTok\Driver\SnaptikDriver;
+use TikTok\TikTokDownloader;
 use Zanzara\Context;
+use Zanzara\Telegram\Type\ChatMember;
 
 class CommandHandler
 {
     public function hentai(Context $ctx): void
     {
-        /** @var Browser */
-        $client = $ctx->getContainer()->get('browser');
-        $client->get('http://api.nekos.fun:8080/api/cum')->then(function (ResponseInterface $response) use ($ctx) {
-            /** @var string */
-            $image = json_decode((string) $response->getBody())->image;
-            if (\pathinfo($image, PATHINFO_EXTENSION) === 'gif') {
-                $ctx->sendChatAction('upload_video')->then(
-                    fn () => $ctx->sendAnimation($image)
-                );
-            } else {
-                $ctx->sendChatAction('upload_photo')->then(
-                    fn () => $ctx->sendPhoto($image)
-                );
-            }
-        });
+        browser($ctx)->get('http://api.nekos.fun:8080/api/cum')
+            ->then(function (ResponseInterface $response): string {
+                return json_decode((string) $response->getBody())->image;
+            })
+            ->then(function (string $url) use ($ctx) {
+                if ('gif' === \pathinfo($url, PATHINFO_EXTENSION)) {
+                    $ctx->sendChatAction('upload_video')->then(
+                        fn () => $ctx->sendAnimation($url)
+                    );
+                } else {
+                    $ctx->sendChatAction('upload_photo')->then(
+                        fn () => $ctx->sendPhoto($url)
+                    );
+                }
+            });
     }
 
     public function facebook(Context $ctx, string $link): void
     {
         $ctx->deleteMessage($ctx->getMessage()?->getChat()->getId(), $ctx->getMessage()?->getMessageId());
-        /** @var Browser */
-        $client = $ctx->getContainer()->get('browser');
-        $client->get('http://api.quangsangblog.com/api/facebook/video?url='.urlencode($link).'&apikey=Eris_m6FbAFJJQGwR2VZsiQuphnR5U3vkT5I')->then(function (ResponseInterface $response) use ($ctx) {
-            /** @var string|false */
-            $video = json_decode((string) $response->getBody())->links->SD ?? false;
 
-            if ($video === false) {
-                $ctx->sendMessage('Đã xảy ra lỗi...');
+        browser($ctx)->get('http://api.quangsangblog.com/api/facebook/video?url='.urlencode($link).'&apikey=Eris_m6FbAFJJQGwR2VZsiQuphnR5U3vkT5I')
+            ->then(function (ResponseInterface $response): string {
+                return json_decode((string) $response->getBody())->links->SD ?? '';
+            })
+            ->then(function (string $link) use ($ctx) {
+                if ('' === $link) {
+                    $ctx->sendMessage('Không thành công!');
 
-                return;
+                    return;
+                }
+
+                $ctx->sendChatAction('upload_video')->then(
+                    fn () => $ctx->sendVideo($link, ['caption' => 'Video facebook'])
+                );
+            });
+    }
+
+    public function admin(Context $ctx): void
+    {
+        $ctx->getChatAdministrators($ctx->getMessage()?->getChat()->getId())->then(
+            /** @param list<ChatMember> $list */
+            function (array $list) use ($ctx) {
+                /** @var list<string> */
+                $admin = [];
+                foreach ($list as $member) {
+                    $user = $member->getUser();
+                    if ($user->isBot()) {
+                        continue;
+                    }
+                    $admin[] = getTagName($user);
+                }
+
+                $ctx->sendMessage('Danh sách chiến thần: '.implode(', ', $admin));
             }
+        );
+    }
 
+    public function tiktok(Context $ctx, string $link): void
+    {
+        $ctx->deleteMessage($ctx->getMessage()?->getChat()->getId(), $ctx->getMessage()?->getMessageId());
+
+        $tiktok = new TikTokDownloader(new SnaptikDriver());
+        try {
+            $video = $tiktok->getVideo($link);
             $ctx->sendChatAction('upload_video')->then(
-                fn () => $ctx->sendVideo($video)
+                fn () => $ctx->sendVideo($video, ['caption' => 'Video from TikTok'])
             );
-        });
+        } catch (\InvalidArgumentException $e) {
+            $ctx->sendMessage('Không thành công!');
+        }
     }
 }
