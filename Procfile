@@ -1,1 +1,1 @@
-worker: php bot.php
+worker: bash run.sh

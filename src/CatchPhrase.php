@@ -9,9 +9,7 @@ class CatchPhrase
     /** @var list<array{image: string, result: string}> */
     private static array $data = [];
 
-    /**
-     * @var array<string, array{image: string, result: string}>
-     */
+    /** @var array<string, array{image: string, result: string}> */
     private static array $current = [];
 
     public const IMAGE_URL = 'https://e.gamevui.vn/web/2014/10/batchu/assets/pics/';
