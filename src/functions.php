@@ -27,5 +27,17 @@ function getTagName(User $user): string
         $name .= ' '.$lastName;
     }
 
-    return $name;
+    $mention = sprintf('[%s](tg://user?id=%d)', $name, $user->getId());
+
+    return $mention;
+}
+
+function getUserId(Context $ctx): string
+{
+    return (string) $ctx->getMessage()?->getFrom()->getId();
+}
+
+function getChatId(Context $ctx): string
+{
+    return (string) $ctx->getMessage()?->getChat()->getId();
 }

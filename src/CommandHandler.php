@@ -63,7 +63,7 @@ class CommandHandler
                     $admin[] = getTagName($user);
                 }
 
-                $ctx->sendMessage('Danh sách chiến thần: '.implode(', ', $admin));
+                $ctx->sendMessage('Danh sách chiến thần: '.implode(', ', $admin), ['parse_mode' => 'MarkdownV2']);
             }
         );
     }
@@ -81,5 +81,21 @@ class CommandHandler
         } catch (\InvalidArgumentException $e) {
             $ctx->sendMessage('Không thành công!');
         }
+    }
+
+    public function cat(Context $ctx): void
+    {
+        browser($ctx)->get('https://api.thecatapi.com/v1/images/search?limit=1&size=full')
+            ->then(function (ResponseInterface $response): string {
+                /*
+                 * @psalm-suppress MixedArrayAccess
+                 */
+                return json_decode((string) $response->getBody())[0]->url;
+            })
+            ->then(function (string $url) use ($ctx) {
+                $ctx->sendChatAction('upload_photo')->then(
+                    fn () => $ctx->sendPhoto($url)
+                );
+            });
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-use React\EventLoop\Loop;
 use React\Http\Browser;
 use function Safe\file_get_contents;
 use function Safe\json_decode;
@@ -11,7 +10,6 @@ use Zanzara\Zanzara;
 require __DIR__.'/vendor/autoload.php';
 
 $config = new Config();
-$config->setLoop(Loop::get());
 
 $bot = new Zanzara((string) $_ENV['BOT_TOKEN'], $config);
 
@@ -32,11 +30,12 @@ $bot->onCommand('game', [CatchPhrase::class, 'game']);
 $bot->onText('ans: {text}', [CatchPhrase::class, 'answer']);
 $bot->onCommand('hentai', [CommandHandler::class, 'hentai']);
 $bot->onCommand('admin', [CommandHandler::class, 'admin']);
+$bot->onCommand('cat', [CommandHandler::class, 'cat']);
 $bot->onText('tiktok {link}', [CommandHandler::class, 'tiktok']);
 $bot->onText('facebook {link}', [CommandHandler::class, 'facebook']);
 
-/** @var array<int,array<string>> */
-$batChu = json_decode(file_get_contents(__DIR__.'/result.json'), true);
-$bot->getContainer()->set('batchu', $batChu);
+/** @var list<array{image: string, result: string}> */
+$data = json_decode(file_get_contents(__DIR__.'/result.json'), true);
+CatchPhrase::importData($data);
 
 $bot->run();

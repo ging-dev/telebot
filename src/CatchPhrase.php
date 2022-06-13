@@ -6,44 +6,39 @@ use Zanzara\Context;
 
 class CatchPhrase
 {
+    /** @var list<array{image: string, result: string}> */
+    private static array $data = [];
+
+    /**
+     * @var array<string, array{image: string, result: string}>
+     */
+    private static array $current = [];
+
     public const IMAGE_URL = 'https://e.gamevui.vn/web/2014/10/batchu/assets/pics/';
 
-    /**
-     * Lấy thông tin câu hỏi hiện tại.
-     *
-     * @return array{
-     *  image: string,
-     *  result: string,
-     * }
-     */
-    public static function getCurrentQuestion(Context $ctx): array
+    /** @param list<array{image: string, result: string}> $data */
+    public static function importData(array $data): void
     {
-        return $ctx->getContainer()->get(getGroupId($ctx));
-    }
-
-    /**
-     * @return list<array{
-     *  image: string,
-     *  result: string,
-     * }>
-     */
-    public static function getDataBatChu(Context $ctx): array
-    {
-        return $ctx->getContainer()->get('batchu');
+        self::$data = $data;
+        shuffle(self::$data);
     }
 
     /**
      * Chuyển câu hỏi.
-     *
-     * @psalm-suppress UndefinedInterfaceMethod
      */
     public static function changeQuestion(Context $ctx): void
     {
-        $data = self::getDataBatChu($ctx);
+        $question = array_shift(self::$data);
 
-        $ctx->getContainer()->set(getGroupId($ctx), $data[array_rand($data)]);
+        if (null === $question) {
+            $ctx->sendMessage('Đã hết câu hỏi.');
 
-        $ctx->sendPhoto(self::IMAGE_URL.self::getCurrentQuestion($ctx)['image']);
+            return;
+        }
+
+        self::$current[getGroupId($ctx)] = $question;
+
+        $ctx->sendPhoto(self::IMAGE_URL.$question['image']);
     }
 
     public function game(Context $ctx): void
@@ -53,7 +48,7 @@ class CatchPhrase
 
     public function answer(Context $ctx, string $text): void
     {
-        $current = self::getCurrentQuestion($ctx);
+        $current = self::$current[getGroupId($ctx)];
         $opt = ['reply_to_message_id' => $ctx->getMessage()?->getMessageId()];
 
         if ('skip' === $text) {
