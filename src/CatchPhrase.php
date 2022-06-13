@@ -20,7 +20,6 @@ class CatchPhrase
     public static function importData(array $data): void
     {
         self::$data = $data;
-        shuffle(self::$data);
     }
 
     /**
