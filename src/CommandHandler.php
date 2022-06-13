@@ -87,7 +87,7 @@ class CommandHandler
     {
         browser($ctx)->get('https://api.thecatapi.com/v1/images/search?limit=1&size=full')
             ->then(function (ResponseInterface $response): string {
-                /**
+                /*
                  * @psalm-suppress MixedArrayAccess
                  */
                 return json_decode((string) $response->getBody())[0]->url;

@@ -34,9 +34,8 @@ $bot->onCommand('cat', [CommandHandler::class, 'cat']);
 $bot->onText('tiktok {link}', [CommandHandler::class, 'tiktok']);
 $bot->onText('facebook {link}', [CommandHandler::class, 'facebook']);
 
-
-/** @var array<int,array<string>> */
-$batChu = json_decode(file_get_contents(__DIR__.'/result.json'), true);
-$bot->getContainer()->set('batchu', $batChu);
+/** @var list<array{image: string, result: string}> */
+$data = json_decode(file_get_contents(__DIR__.'/result.json'), true);
+CatchPhrase::importData($data);
 
 $bot->run();
