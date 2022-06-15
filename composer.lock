@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e08070b786e093fc794984b65db4e27e",
+    "content-hash": "104faaa8c62b218f57591bbca9265a69",
     "packages": [
         {
             "name": "badfarm/zanzara",
@@ -74,7 +74,7 @@
         },
         {
             "name": "cakephp/core",
-            "version": "4.4.0",
+            "version": "4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
@@ -131,7 +131,7 @@
         },
         {
             "name": "cakephp/utility",
-            "version": "4.4.0",
+            "version": "4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/utility.git",
@@ -1447,6 +1447,58 @@
             "time": "2021-11-05T16:50:12+00:00"
         },
         {
+            "name": "psr/http-client",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-client.git",
+                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-client/zipball/2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
+                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0 || ^8.0",
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP clients",
+            "homepage": "https://github.com/php-fig/http-client",
+            "keywords": [
+                "http",
+                "http-client",
+                "psr",
+                "psr-18"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-client/tree/master"
+            },
+            "time": "2020-06-29T06:28:15+00:00"
+        },
+        {
             "name": "psr/http-factory",
             "version": "1.0.1",
             "source": {
@@ -1610,12 +1662,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/async.git",
-                "reference": "cfd52ac426a765a593a3a5c03fceb5a31c9d9edc"
+                "reference": "ff7a06c13abe788a3cad9215057a18aaa88a0ea2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/async/zipball/cfd52ac426a765a593a3a5c03fceb5a31c9d9edc",
-                "reference": "cfd52ac426a765a593a3a5c03fceb5a31c9d9edc",
+                "url": "https://api.github.com/repos/reactphp/async/zipball/ff7a06c13abe788a3cad9215057a18aaa88a0ea2",
+                "reference": "ff7a06c13abe788a3cad9215057a18aaa88a0ea2",
                 "shasum": ""
             },
             "require": {
@@ -1682,7 +1734,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-21T19:26:01+00:00"
+            "time": "2022-06-13T18:21:37+00:00"
         },
         {
             "name": "react/cache",
@@ -2317,16 +2369,16 @@
         },
         {
             "name": "react/promise-timer",
-            "version": "v1.8.0",
+            "version": "v1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise-timer.git",
-                "reference": "0bbbcc79589e5bfdddba68a287f1cb805581a479"
+                "reference": "aa7a73c74b8d8c0f622f5982ff7b0351bc29e495"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise-timer/zipball/0bbbcc79589e5bfdddba68a287f1cb805581a479",
-                "reference": "0bbbcc79589e5bfdddba68a287f1cb805581a479",
+                "url": "https://api.github.com/repos/reactphp/promise-timer/zipball/aa7a73c74b8d8c0f622f5982ff7b0351bc29e495",
+                "reference": "aa7a73c74b8d8c0f622f5982ff7b0351bc29e495",
                 "shasum": ""
             },
             "require": {
@@ -2384,7 +2436,7 @@
             ],
             "support": {
                 "issues": "https://github.com/reactphp/promise-timer/issues",
-                "source": "https://github.com/reactphp/promise-timer/tree/v1.8.0"
+                "source": "https://github.com/reactphp/promise-timer/tree/v1.9.0"
             },
             "funding": [
                 {
@@ -2396,7 +2448,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-06T11:08:48+00:00"
+            "time": "2022-06-13T13:41:03+00:00"
         },
         {
             "name": "react/socket",
@@ -2917,6 +2969,87 @@
                 "source": "https://github.com/spiral/roadrunner-worker/tree/v2.2.0"
             },
             "time": "2022-03-22T11:03:47+00:00"
+        },
+        {
+            "name": "swow/swow",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swow/swow.git",
+                "reference": "ebd7183f0af42d60666bd44c2134d2bc42ff3cb6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swow/swow/zipball/ebd7183f0af42d60666bd44c2134d2bc42ff3cb6",
+                "reference": "ebd7183f0af42d60666bd44c2134d2bc42ff3cb6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0",
+                "psr/http-client": "^1.0",
+                "psr/http-message": "^1.0"
+            },
+            "replace": {
+                "swow/php-stub-generator": "*",
+                "swow/swow-library": "*",
+                "swow/swow-stub": "*",
+                "swow/swow-util": "*"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.7.0",
+                "phan/phan": "^5.3",
+                "phpstan/phpstan": "^1.4",
+                "phpunit/phpunit": "=9.5.16",
+                "rector/rector": "^0.12.8",
+                "vimeo/psalm": "^4.22"
+            },
+            "suggest": {
+                "ext-swow": "*"
+            },
+            "default-branch": true,
+            "bin": [
+                "bin/swow-builder"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/swow-library/src/functions.php",
+                    "lib/swow-library/src/Debug/functions.php",
+                    "lib/swow-util/src/functions.php"
+                ],
+                "psr-4": {
+                    "Swow\\": "lib/swow-library/src/",
+                    "Swow\\Util\\": "lib/swow-util/src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "twose",
+                    "email": "twosee@php.net"
+                }
+            ],
+            "description": "Coroutine-based concurrency library for PHP",
+            "keywords": [
+                "async",
+                "client",
+                "coroutine",
+                "event",
+                "http",
+                "libcat",
+                "libuv",
+                "server",
+                "swow",
+                "websocket"
+            ],
+            "support": {
+                "issues": "https://github.com/swow/swow",
+                "source": "https://github.com/swow/swow/tree/ci"
+            },
+            "time": "2022-06-06T09:57:21+00:00"
         },
         {
             "name": "symfony/browser-kit",
@@ -4469,69 +4602,6 @@
             "time": "2017-10-21T03:33:59+00:00"
         },
         {
-            "name": "workerman/workerman",
-            "version": "v4.0.38",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/walkor/workerman.git",
-                "reference": "bb7079b8e8ceccf3d1c045d084cbfea42e652fd8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/walkor/workerman/zipball/bb7079b8e8ceccf3d1c045d084cbfea42e652fd8",
-                "reference": "bb7079b8e8ceccf3d1c045d084cbfea42e652fd8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "suggest": {
-                "ext-event": "For better performance. "
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Workerman\\": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "walkor",
-                    "email": "walkor@workerman.net",
-                    "homepage": "http://www.workerman.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "An asynchronous event driven PHP framework for easily building fast, scalable network applications.",
-            "homepage": "http://www.workerman.net",
-            "keywords": [
-                "asynchronous",
-                "event-loop"
-            ],
-            "support": {
-                "email": "walkor@workerman.net",
-                "forum": "http://wenda.workerman.net/",
-                "issues": "https://github.com/walkor/workerman/issues",
-                "source": "https://github.com/walkor/workerman",
-                "wiki": "http://doc.workerman.net/"
-            },
-            "funding": [
-                {
-                    "url": "https://opencollective.com/workerman",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://www.patreon.com/walkor",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2022-06-11T04:48:37+00:00"
-        },
-        {
             "name": "wyrihaximus/composer-update-bin-autoload-path",
             "version": "1.1.1",
             "source": {
@@ -5960,16 +6030,16 @@
         },
         {
             "name": "symplify/vendor-patches",
-            "version": "10.3.2",
+            "version": "10.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/vendor-patches.git",
-                "reference": "478abaca4461891d9eb1445ab09e2482ef6c2b88"
+                "reference": "fc1d2728b65753bcc3798ddc26ee02a11cf2529a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/vendor-patches/zipball/478abaca4461891d9eb1445ab09e2482ef6c2b88",
-                "reference": "478abaca4461891d9eb1445ab09e2482ef6c2b88",
+                "url": "https://api.github.com/repos/symplify/vendor-patches/zipball/fc1d2728b65753bcc3798ddc26ee02a11cf2529a",
+                "reference": "fc1d2728b65753bcc3798ddc26ee02a11cf2529a",
                 "shasum": ""
             },
             "require": {
@@ -5991,7 +6061,7 @@
             ],
             "description": "Generate vendor patches for packages with single command",
             "support": {
-                "source": "https://github.com/symplify/vendor-patches/tree/10.3.2"
+                "source": "https://github.com/symplify/vendor-patches/tree/10.3.3"
             },
             "funding": [
                 {
@@ -6003,7 +6073,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-11T11:43:20+00:00"
+            "time": "2022-06-13T14:02:10+00:00"
         },
         {
             "name": "vimeo/psalm",
@@ -6226,7 +6296,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "react/async": 20,
-        "gingteam/tiktok": 20
+        "gingteam/tiktok": 20,
+        "swow/swow": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

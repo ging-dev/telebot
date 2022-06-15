@@ -1,0 +1,19 @@
+--- /dev/null
++++ ../src/Timer/Timers.php
+@@ -3,6 +3,7 @@
+ namespace React\EventLoop\Timer;
+ 
+ use React\EventLoop\TimerInterface;
++use Swow\Coroutine;
+ 
+ /**
+  * A scheduler implementation that can hold multiple timer instances
+@@ -98,7 +99,7 @@
+             }
+ 
+             $timer = $this->timers[$id];
+-            \call_user_func($timer->getCallback(), $timer);
++            Coroutine::run($timer->getCallback(), $timer);
+ 
+             // re-schedule if this is a periodic timer and it has not been cancelled explicitly already
+             if ($timer->isPeriodic() && isset($this->timers[$id])) {

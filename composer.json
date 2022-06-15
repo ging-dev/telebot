@@ -4,18 +4,20 @@
         "badfarm/zanzara": "^0.8.0",
         "symfony/http-client": "^6.0",
         "react/filesystem": "^0.1.2",
-        "workerman/workerman": "^4.0",
         "cweagans/composer-patches": "^1.7",
         "symfony/string": "^6.0",
         "react/async": "^4@dev",
         "gingteam/tiktok": "dev-main",
-        "spiral/roadrunner": "v2.0"
+        "spiral/roadrunner": "v2.0",
+        "swow/swow": "dev-develop"
     },
     "autoload": {
         "classmap": [
             "src/"
         ],
-        "files": ["src/functions.php"]
+        "files": [
+            "src/functions.php"
+        ]
     },
     "require-dev": {
         "vimeo/psalm": "^4.23",
@@ -23,6 +25,10 @@
     },
     "extra": {
         "patches": {
+            "react/event-loop": [
+                "patches/react-event-loop-src-tick-futuretickqueue-php.patch",
+                "patches/react-event-loop-src-timer-timers-php.patch"
+            ],
             "badfarm/zanzara": [
                 "patches/badfarm-zanzara-src-zanzara-listener-listenerresolver-php.patch"
             ]

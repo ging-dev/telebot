@@ -19,6 +19,9 @@ $bot = new Zanzara((string) getenv('BOT_TOKEN'), $config);
 $bot->getContainer()->set('browser', new Browser($bot->getLoop()));
 $bot->onCommand('start', function (Context $ctx) {
     $ctx->sendMessage('Chào bạn');
+    if (extension_loaded('swow')) {
+        $ctx->sendMessage('Swow is enable');
+    }
 });
 $bot->onCommand('myid', function (Context $ctx) {
     $id = $ctx->getMessage()?->getFrom()->getId();

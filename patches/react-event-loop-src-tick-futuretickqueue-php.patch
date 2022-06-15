@@ -1,0 +1,21 @@
+--- /dev/null
++++ ../src/Tick/FutureTickQueue.php
+@@ -3,6 +3,7 @@
+ namespace React\EventLoop\Tick;
+ 
+ use SplQueue;
++use Swow\Coroutine;
+ 
+ /**
+  * A tick queue implementation that can hold multiple callback functions
+@@ -42,9 +43,7 @@
+         $count = $this->queue->count();
+ 
+         while ($count--) {
+-            \call_user_func(
+-                $this->queue->dequeue()
+-            );
++            Coroutine::run($this->queue->dequeue());
+         }
+     }
+ 

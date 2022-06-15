@@ -2,7 +2,7 @@ version: "2.7"
 
 service:
   telegram_bot:
-    command: "php bot.php"
+    command: "php -d extension=./vendor/swow/swow/ext/.libs/swow.so bot.php"
     remain_after_exit: true
     restart_sec: 1
     env:

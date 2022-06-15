@@ -1,0 +1,8 @@
+{
+    "name": "Telegram BOT",
+    "scripts": {
+        "dokku": {
+            "predeploy": "printf 'n' | ./vendor/bin/swow-builder && ./vendor/bin/rr get-binary"
+        }
+    }
+}
