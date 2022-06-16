@@ -5,6 +5,7 @@ use TikTok\Driver\SnaptikDriver;
 use TikTok\TikTokDownloader;
 use Zanzara\Context;
 use Zanzara\Telegram\Type\ChatMember;
+use Zanzara\Config;
 
 class CommandHandler
 {
@@ -63,7 +64,7 @@ class CommandHandler
                     $admin[] = getTagName($user);
                 }
 
-                $ctx->sendMessage('Danh sách chiến thần: '.implode(', ', $admin), ['parse_mode' => 'MarkdownV2']);
+                $ctx->sendMessage('Danh sách chiến thần: '.implode(', ', $admin), ['parse_mode' => Config::PARSE_MODE_HTML]);
             }
         );
     }

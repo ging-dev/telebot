@@ -22,7 +22,7 @@ function getTagName(User $user): string
         $name .= ' '.$lastName;
     }
 
-    $mention = sprintf('[%s](tg://user?id=%d)', $name, $user->getId());
+    $mention = sprintf('<a href="tg://user?id=%d">%s</a>', $user->getId(), htmlspecialchars($name));
 
     return $mention;
 }
