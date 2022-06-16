@@ -14,9 +14,8 @@ $data = json_decode(file_get_contents(__DIR__.'/result.json'), true);
 shuffle($data);
 CatchPhrase::importData($data);
 
-
 $config = new Config();
-$bot = new Zanzara((string) $_ENV['BOT_TOKEN'], $config);
+$bot = new Zanzara((string) getenv('BOT_TOKEN'), $config);
 $bot->getContainer()->set('browser', new Browser($bot->getLoop()));
 $bot->onCommand('start', function (Context $ctx) {
     $ctx->sendMessage('Chào bạn');

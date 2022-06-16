@@ -1,0 +1,8 @@
+{
+    "name": "Telegram BOT",
+    "scripts": {
+        "dokku": {
+            "predeploy": "./vendor/bin/rr get-binary"
+        }
+    }
+}

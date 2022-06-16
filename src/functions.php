@@ -16,11 +16,6 @@ function browser(Context $ctx): Browser
 
 function getTagName(User $user): string
 {
-    $username = $user->getUsername();
-    if ($username) {
-        return '@'.$username;
-    }
-
     $name = $user->getFirstName();
     $lastName = $user->getLastName();
     if ($lastName) {

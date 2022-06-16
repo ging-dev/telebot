@@ -4,17 +4,19 @@
         "badfarm/zanzara": "^0.8.0",
         "symfony/http-client": "^6.0",
         "react/filesystem": "^0.1.2",
-        "workerman/workerman": "^4.0",
         "cweagans/composer-patches": "^1.7",
         "symfony/string": "^6.0",
         "react/async": "^4@dev",
-        "gingteam/tiktok": "dev-main"
+        "gingteam/tiktok": "dev-main",
+        "spiral/roadrunner": "v2.0"
     },
     "autoload": {
         "classmap": [
             "src/"
         ],
-        "files": ["src/functions.php"]
+        "files": [
+            "src/functions.php"
+        ]
     },
     "require-dev": {
         "vimeo/psalm": "^4.23",
