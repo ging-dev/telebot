@@ -6,6 +6,7 @@ use TikTok\TikTokDownloader;
 use Zanzara\Context;
 use Zanzara\Telegram\Type\ChatMember;
 use Zanzara\Config;
+use TikTok\Driver\FacebookDriver;
 
 class CommandHandler
 {
@@ -32,21 +33,15 @@ class CommandHandler
     {
         $ctx->deleteMessage($ctx->getMessage()?->getChat()->getId(), $ctx->getMessage()?->getMessageId());
 
-        browser($ctx)->get('http://api.quangsangblog.com/api/facebook/video?url='.urlencode($link).'&apikey=Eris_m6FbAFJJQGwR2VZsiQuphnR5U3vkT5I')
-            ->then(function (ResponseInterface $response): string {
-                return json_decode((string) $response->getBody())->links->SD ?? '';
-            })
-            ->then(function (string $link) use ($ctx) {
-                if ('' === $link) {
-                    $ctx->sendMessage('Không thành công!');
-
-                    return;
-                }
-
-                $ctx->sendChatAction('upload_video')->then(
-                    fn () => $ctx->sendVideo($link, ['caption' => 'Video facebook'])
-                );
-            });
+        $tiktok = new TikTokDownloader(new FacebookDriver());
+        try {
+            $video = $tiktok->getVideo($link);
+            $ctx->sendChatAction('upload_video')->then(
+                fn () => $ctx->sendVideo($video, ['caption' => 'Video from Facebook'])
+            );
+        } catch (\InvalidArgumentException $e) {
+            $ctx->sendMessage('Không thành công!');
+        }
     }
 
     public function admin(Context $ctx): void
