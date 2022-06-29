@@ -8,7 +8,9 @@
         "symfony/string": "^6.0",
         "react/async": "^4@dev",
         "gingteam/tiktok": "dev-main",
-        "spiral/roadrunner": "v2.0"
+        "spiral/roadrunner": "v2.0",
+        "amphp/react-adapter": "^2.1",
+        "amphp/parallel": "^1.4"
     },
     "autoload": {
         "classmap": [

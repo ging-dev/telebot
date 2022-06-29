@@ -1,12 +1,11 @@
 <?php
 
+use function Amp\asyncCall;
+use function Amp\Parallel\Worker\enqueueCallable;
 use Psr\Http\Message\ResponseInterface;
-use TikTok\Driver\SnaptikDriver;
-use TikTok\TikTokDownloader;
+use Zanzara\Config;
 use Zanzara\Context;
 use Zanzara\Telegram\Type\ChatMember;
-use Zanzara\Config;
-use TikTok\Driver\FacebookDriver;
 
 class CommandHandler
 {
@@ -31,17 +30,42 @@ class CommandHandler
 
     public function facebook(Context $ctx, string $link): void
     {
-        $ctx->deleteMessage($ctx->getMessage()?->getChat()->getId(), $ctx->getMessage()?->getMessageId());
+        asyncCall(function () use ($ctx, $link) {
+            yield $ctx->deleteMessage($ctx->getMessage()?->getChat()->getId(), $ctx->getMessage()?->getMessageId());
 
-        $tiktok = new TikTokDownloader(new FacebookDriver());
-        try {
-            $video = $tiktok->getVideo($link);
+            /** @var string|false */
+            $video = yield enqueueCallable('get_video', $link, true);
+
+            if (!$video) {
+                $ctx->sendMessage('Không thành công!');
+
+                return;
+            }
+
             $ctx->sendChatAction('upload_video')->then(
                 fn () => $ctx->sendVideo($video, ['caption' => 'Video from Facebook'])
             );
-        } catch (\InvalidArgumentException $e) {
-            $ctx->sendMessage('Không thành công!');
-        }
+        });
+    }
+
+    public function tiktok(Context $ctx, string $link): void
+    {
+        asyncCall(function () use ($ctx, $link) {
+            yield $ctx->deleteMessage($ctx->getMessage()?->getChat()->getId(), $ctx->getMessage()?->getMessageId());
+
+            /** @var string|false */
+            $video = yield enqueueCallable('get_video', $link);
+
+            if (!$video) {
+                $ctx->sendMessage('Không thành công!');
+
+                return;
+            }
+
+            $ctx->sendChatAction('upload_video')->then(
+                fn () => $ctx->sendVideo($video, ['caption' => 'Video from TikTok'])
+            );
+        });
     }
 
     public function admin(Context $ctx): void
@@ -62,21 +86,6 @@ class CommandHandler
                 $ctx->sendMessage('Danh sách chiến thần: '.implode(', ', $admin), ['parse_mode' => Config::PARSE_MODE_HTML]);
             }
         );
-    }
-
-    public function tiktok(Context $ctx, string $link): void
-    {
-        $ctx->deleteMessage($ctx->getMessage()?->getChat()->getId(), $ctx->getMessage()?->getMessageId());
-
-        $tiktok = new TikTokDownloader(new SnaptikDriver());
-        try {
-            $video = $tiktok->getVideo($link);
-            $ctx->sendChatAction('upload_video')->then(
-                fn () => $ctx->sendVideo($video, ['caption' => 'Video from TikTok'])
-            );
-        } catch (\InvalidArgumentException $e) {
-            $ctx->sendMessage('Không thành công!');
-        }
     }
 
     public function cat(Context $ctx): void
