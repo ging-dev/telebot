@@ -4,5 +4,13 @@
         "dokku": {
             "predeploy": "./vendor/bin/rr get-binary"
         }
+    },
+    "formation": {
+        "web": {
+            "quantity": 0
+        },
+        "worker": {
+            "quantity": 1
+        }
     }
 }

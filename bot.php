@@ -1,5 +1,6 @@
 <?php
 
+use Amp\ReactAdapter\ReactAdapter;
 use React\Http\Browser;
 use function Safe\file_get_contents;
 use function Safe\json_decode;
@@ -15,6 +16,8 @@ shuffle($data);
 CatchPhrase::importData($data);
 
 $config = new Config();
+$config->setLoop(ReactAdapter::get());
+
 $bot = new Zanzara((string) getenv('BOT_TOKEN'), $config);
 $bot->getContainer()->set('browser', new Browser($bot->getLoop()));
 $bot->onCommand('start', function (Context $ctx) {

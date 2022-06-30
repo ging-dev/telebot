@@ -1,6 +1,9 @@
 <?php
 
 use React\Http\Browser;
+use TikTok\Driver\FacebookDriver;
+use TikTok\Driver\SnaptikDriver;
+use TikTok\TikTokDownloader;
 use Zanzara\Context;
 use Zanzara\Telegram\Type\User;
 
@@ -35,4 +38,19 @@ function getUserId(Context $ctx): string
 function getChatId(Context $ctx): string
 {
     return (string) $ctx->getMessage()?->getChat()->getId();
+}
+
+/**
+ * @return string|bool
+ */
+function get_video(string $url, bool $facebook = false)
+{
+    $tiktok = new TikTokDownloader($facebook ? new FacebookDriver() : new SnaptikDriver());
+
+    try {
+        return $tiktok->getVideo($url);
+    } catch (\InvalidArgumentException) {
+    }
+
+    return false;
 }

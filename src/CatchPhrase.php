@@ -1,20 +1,23 @@
 <?php
 
-use function React\Async\await;
+use function Amp\asyncCall;
 use function Symfony\Component\String\u;
 use Zanzara\Context;
 
+/**
+ * @psalm-type QuestionType = array{image: string, result: string}
+ */
 class CatchPhrase
 {
-    /** @var list<array{image: string, result: string}> */
+    /** @var list<QuestionType> */
     private static array $data = [];
 
-    /** @var array<string, array{image: string, result: string}> */
+    /** @var array<string, QuestionType> */
     private static array $current = [];
 
     public const IMAGE_URL = 'https://e.gamevui.vn/web/2014/10/batchu/assets/pics/';
 
-    /** @param list<array{image: string, result: string}> $data */
+    /** @param list<QuestionType> $data */
     public static function importData(array $data): void
     {
         self::$data = $data;
@@ -45,27 +48,29 @@ class CatchPhrase
 
     public function answer(Context $ctx, string $text): void
     {
-        $current = self::$current[getGroupId($ctx)];
-        $opt = ['reply_to_message_id' => $ctx->getMessage()?->getMessageId()];
+        asyncCall(function () use ($ctx, $text) {
+            $current = self::$current[getGroupId($ctx)];
+            $opt = ['reply_to_message_id' => $ctx->getMessage()?->getMessageId()];
 
-        if ('skip' === $text) {
-            await($ctx->sendMessage('Đáp án: '.$current['result']));
+            if ('skip' === $text) {
+                yield $ctx->sendMessage('Đáp án: '.$current['result']);
 
-            self::changeQuestion($ctx);
-        } elseif (u($text)->ascii()->lower() == u($current['result'])->ascii()->lower()) {
-            $name = $ctx->getMessage()?->getFrom()->getFirstName();
+                self::changeQuestion($ctx);
+            } elseif (u($text)->ascii()->lower() == u($current['result'])->ascii()->lower()) {
+                $name = $ctx->getMessage()?->getFrom()->getFirstName();
 
-            if (5214954937 === $ctx->getMessage()?->getFrom()->getId()) {
-                $message = 'Chồng yêu đã trả lời chính xác! 😍';
+                if (5214954937 === $ctx->getMessage()?->getFrom()->getId()) {
+                    $message = 'Chồng yêu đã trả lời chính xác! 😍';
+                } else {
+                    $message = sprintf('Bạn %s đã trả lời chính xác! 😊', $name);
+                }
+
+                yield $ctx->sendMessage($message, $opt);
+
+                self::changeQuestion($ctx);
             } else {
-                $message = sprintf('Bạn %s đã trả lời chính xác! 😊', $name);
+                $ctx->sendMessage('Không chính xác...', $opt);
             }
-
-            await($ctx->sendMessage($message, $opt));
-
-            self::changeQuestion($ctx);
-        } else {
-            $ctx->sendMessage('Không chính xác...', $opt);
-        }
+        });
     }
 }

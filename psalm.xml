@@ -18,5 +18,6 @@
         <MixedPropertyFetch errorLevel="suppress" />
         <MixedReturnStatement errorLevel="suppress" />
         <MixedInferredReturnType errorLevel="suppress" />
+        <MixedArrayAccess errorLevel="suppress" />
     </issueHandlers>
 </psalm>
