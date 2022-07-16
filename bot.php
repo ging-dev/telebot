@@ -36,5 +36,6 @@ $bot->onCommand('admin', [CommandHandler::class, 'admin']);
 $bot->onCommand('cat', [CommandHandler::class, 'cat']);
 $bot->onText('tiktok {link}', [CommandHandler::class, 'tiktok']);
 $bot->onText('facebook {link}', [CommandHandler::class, 'facebook']);
+$bot->onText('xvideos', [CommandHandler::class, 'random_xvideos']);
 
 $bot->run();

@@ -9,7 +9,8 @@
         "gingteam/tiktok": "dev-main",
         "spiral/roadrunner": "v2.0",
         "amphp/react-adapter": "^2.1",
-        "amphp/parallel": "^1.4"
+        "amphp/parallel": "^1.4",
+        "ging-dev/xvideos": "dev-main"
     },
     "autoload": {
         "classmap": [

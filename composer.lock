@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5713f0fc7e6d4fdcd08fab1a8d521729",
+    "content-hash": "542b77a5de8a3efde7cd969cc87b01c0",
     "packages": [
         {
             "name": "amphp/amp",
@@ -303,16 +303,16 @@
         },
         {
             "name": "amphp/process",
-            "version": "v1.1.3",
+            "version": "v1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/process.git",
-                "reference": "f09e3ed3b0a953ccbfff1140f12be4a884f0aa83"
+                "reference": "76e9495fd6818b43a20167cb11d8a67f7744ee0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/process/zipball/f09e3ed3b0a953ccbfff1140f12be4a884f0aa83",
-                "reference": "f09e3ed3b0a953ccbfff1140f12be4a884f0aa83",
+                "url": "https://api.github.com/repos/amphp/process/zipball/76e9495fd6818b43a20167cb11d8a67f7744ee0f",
+                "reference": "76e9495fd6818b43a20167cb11d8a67f7744ee0f",
                 "shasum": ""
             },
             "require": {
@@ -356,7 +356,7 @@
             "homepage": "https://github.com/amphp/process",
             "support": {
                 "issues": "https://github.com/amphp/process/issues",
-                "source": "https://github.com/amphp/process/tree/v1.1.3"
+                "source": "https://github.com/amphp/process/tree/v1.1.4"
             },
             "funding": [
                 {
@@ -364,7 +364,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-17T19:09:33+00:00"
+            "time": "2022-07-06T23:50:12+00:00"
         },
         {
             "name": "amphp/react-adapter",
@@ -609,7 +609,7 @@
         },
         {
             "name": "cakephp/core",
-            "version": "4.4.1",
+            "version": "4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
@@ -666,16 +666,16 @@
         },
         {
             "name": "cakephp/utility",
-            "version": "4.4.1",
+            "version": "4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/utility.git",
-                "reference": "b2a47e038954432b2e09d3406559a75656ebe131"
+                "reference": "564cf3bea3bb31e0cb53fa199c39f17105af01ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/utility/zipball/b2a47e038954432b2e09d3406559a75656ebe131",
-                "reference": "b2a47e038954432b2e09d3406559a75656ebe131",
+                "url": "https://api.github.com/repos/cakephp/utility/zipball/564cf3bea3bb31e0cb53fa199c39f17105af01ec",
+                "reference": "564cf3bea3bb31e0cb53fa199c39f17105af01ec",
                 "shasum": ""
             },
             "require": {
@@ -721,7 +721,7 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/utility"
             },
-            "time": "2022-05-20T04:16:49+00:00"
+            "time": "2022-07-05T07:59:19+00:00"
         },
         {
             "name": "clue/http-proxy-react",
@@ -1237,6 +1237,51 @@
                 "source": "https://github.com/php-fig/http-message-util/tree/1.1.5"
             },
             "time": "2020-11-24T22:02:12+00:00"
+        },
+        {
+            "name": "ging-dev/xvideos",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ging-dev/xvideos.git",
+                "reference": "4d63011fe904c5461a541bd1ea21302cdddbdbc5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ging-dev/xvideos/zipball/4d63011fe904c5461a541bd1ea21302cdddbdbc5",
+                "reference": "4d63011fe904c5461a541bd1ea21302cdddbdbc5",
+                "shasum": ""
+            },
+            "require": {
+                "fabpot/goutte": "^4.0",
+                "mck89/peast": "^1.14"
+            },
+            "require-dev": {
+                "pestphp/pest": "^1.21",
+                "vimeo/psalm": "^4.24"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GingDev\\Xvideos\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ging-dev",
+                    "email": "thanh1101dev@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/ging-dev/xvideos/issues",
+                "source": "https://github.com/ging-dev/xvideos/tree/main"
+            },
+            "time": "2022-07-07T13:25:26+00:00"
         },
         {
             "name": "gingteam/tiktok",
@@ -6502,7 +6547,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "gingteam/tiktok": 20
+        "gingteam/tiktok": 20,
+        "ging-dev/xvideos": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
