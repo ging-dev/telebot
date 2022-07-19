@@ -13,7 +13,7 @@ require __DIR__.'/vendor/autoload.php';
 /** @var list<array{image: string, result: string}> */
 $data = json_decode(file_get_contents(__DIR__.'/result.json'), true);
 shuffle($data);
-CatchPhrase::importData($data);
+CatchPhrase::import($data);
 
 $config = new Config();
 $config->setLoop(ReactAdapter::get());

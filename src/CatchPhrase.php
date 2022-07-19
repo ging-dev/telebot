@@ -19,7 +19,7 @@ class CatchPhrase
     public const IMAGE_URL = 'https://e.gamevui.vn/web/2014/10/batchu/assets/pics/';
 
     /** @param list<QuestionType> $data */
-    public static function importData(array $data): void
+    public static function import(array $data): void
     {
         self::$data = $data;
     }
