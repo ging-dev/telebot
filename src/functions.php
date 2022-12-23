@@ -9,7 +9,7 @@ use TikTok\TikTokDownloader;
 use Zanzara\Context;
 use Zanzara\Telegram\Type\User;
 
-function getGroupId(Context $ctx): string
+function groupId(Context $ctx): string
 {
     return (string) $ctx->getMessage()?->getChat()->getId();
 }
@@ -19,8 +19,12 @@ function browser(Context $ctx): Browser
     return $ctx->getContainer()->get('browser');
 }
 
-function getTagName(User $user): string
+function tagName(?User $user): string
 {
+    if (null === $user) {
+        return 'Unknown';
+    }
+
     $name = $user->getFirstName();
     $lastName = $user->getLastName();
     if ($lastName) {
@@ -32,12 +36,12 @@ function getTagName(User $user): string
     return $mention;
 }
 
-function getUserId(Context $ctx): string
+function userId(Context $ctx): string
 {
     return (string) $ctx->getMessage()?->getFrom()->getId();
 }
 
-function getChatId(Context $ctx): string
+function chatId(Context $ctx): string
 {
     return (string) $ctx->getMessage()?->getChat()->getId();
 }

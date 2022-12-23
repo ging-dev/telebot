@@ -82,7 +82,7 @@ class CommandHandler
                     if ($user->isBot()) {
                         continue;
                     }
-                    $admin[] = getTagName($user);
+                    $admin[] = tagName($user);
                 }
 
                 $ctx->sendMessage('Danh sách chiến thần: '.implode(', ', $admin), ['parse_mode' => Config::PARSE_MODE_HTML]);

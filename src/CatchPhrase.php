@@ -1,6 +1,7 @@
 <?php
 
 use EventSauce\ObjectHydrator\ObjectMapperUsingReflection;
+use Zanzara\Config;
 use function Amp\asyncCall;
 use React\Promise\PromiseInterface;
 use function Symfony\Component\String\u;
@@ -10,8 +11,8 @@ class CatchPhrase
 {
     private static ListOfQuestions $questions;
 
-    /** @var array<string, Question> */
-    private static array $current = [];
+    /** @var array<string,Question> */
+    private static array $currentQuestionOf = [];
 
     public const IMAGE_URL = 'https://e.gamevui.vn/web/2014/10/batchu/assets/pics/';
 
@@ -34,7 +35,7 @@ class CatchPhrase
             return $ctx->sendMessage('Đã hết câu hỏi.');
         }
 
-        self::$current[getGroupId($ctx)] = $question;
+        self::$currentQuestionOf[groupId($ctx)] = $question;
 
         return $ctx->sendPhoto(self::IMAGE_URL.$question->image);
     }
@@ -49,20 +50,23 @@ class CatchPhrase
     public function answer(Context $ctx, string $text): void
     {
         asyncCall(function () use ($ctx, $text) {
-            $current = self::$current[getGroupId($ctx)];
-            $opt = ['reply_to_message_id' => $ctx->getMessage()?->getMessageId()];
+            $current = self::$currentQuestionOf[groupId($ctx)];
+            $opt = [
+                'reply_to_message_id' => $ctx->getMessage()?->getMessageId(),
+                'parse_mode' => Config::PARSE_MODE_HTML,
+            ];
 
             if ('skip' === $text) {
                 yield $ctx->sendMessage('Đáp án: '.$current->result);
 
                 self::changeQuestion($ctx);
             } elseif (u($text)->ascii()->lower() == u($current->result)->ascii()->lower()) {
-                $name = $ctx->getMessage()?->getFrom()->getFirstName();
+                $user = $ctx->getMessage()?->getFrom();
 
                 if (5214954937 === $ctx->getMessage()?->getFrom()->getId()) {
                     $message = 'Chồng yêu đã trả lời chính xác! 😍';
                 } else {
-                    $message = sprintf('Bạn %s đã trả lời chính xác! 😊', $name);
+                    $message = sprintf('Bạn %s đã trả lời chính xác! 😊', tagName($user));
                 }
 
                 yield $ctx->sendMessage($message, $opt);
