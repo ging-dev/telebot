@@ -56,27 +56,3 @@ function get_video(string $url, bool $facebook = false)
 
     return false;
 }
-
-/**
- * @return array{high: string, low: string, title: string, thumb: string}
- */
-function get_xvideos_last_month()
-{
-    $client = new Client();
-
-    $oneMonthAgo = new \DateTime('-1 month');
-
-    $crawler = $client->request(
-        'GET',
-        sprintf('https://www.xv-videos1.com/best/%s/%d',
-            rand(0, 111), $oneMonthAgo->format('Y-m')
-        )
-    );
-
-    /** @var list<string> */
-    $list = $crawler->filterXPath('//div[contains(@id, "video_")]')->evaluate('substring-after(@id, "_")');
-
-    shuffle($list);
-
-    return (new Detail($client))->get(array_pop($list));
-}

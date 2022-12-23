@@ -1,1 +1,1 @@
-worker: ./rr serve
+worker: php bot.php

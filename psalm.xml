@@ -19,5 +19,6 @@
         <MixedReturnStatement errorLevel="suppress" />
         <MixedInferredReturnType errorLevel="suppress" />
         <MixedArrayAccess errorLevel="suppress" />
+        <InternalMethod errorLevel="suppress"></InternalMethod>
     </issueHandlers>
 </psalm>

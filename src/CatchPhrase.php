@@ -1,27 +1,26 @@
 <?php
 
+use EventSauce\ObjectHydrator\ObjectMapperUsingReflection;
 use function Amp\asyncCall;
 use React\Promise\PromiseInterface;
 use function Symfony\Component\String\u;
 use Zanzara\Context;
 
-/**
- * @psalm-type QuestionType = array{image: string, result: string}
- */
 class CatchPhrase
 {
-    /** @var list<QuestionType> */
-    private static array $data = [];
+    private static ListOfQuestions $questions;
 
-    /** @var array<string, QuestionType> */
+    /** @var array<string, Question> */
     private static array $current = [];
 
     public const IMAGE_URL = 'https://e.gamevui.vn/web/2014/10/batchu/assets/pics/';
 
-    /** @param list<QuestionType> $data */
-    public static function import(array $data): void
+    /** @param list<array<string,string>> $data */
+    public static function initialize(array $data): void
     {
-        self::$data = $data;
+        $questions = (new ObjectMapperUsingReflection())->hydrateObjects(Question::class, $data);
+
+        self::$questions = new ListOfQuestions($questions->toArray());
     }
 
     /**
@@ -29,7 +28,7 @@ class CatchPhrase
      */
     public static function changeQuestion(Context $ctx): PromiseInterface
     {
-        $question = array_shift(self::$data);
+        $question = static::$questions->pop();
 
         if (null === $question) {
             return $ctx->sendMessage('Đã hết câu hỏi.');
@@ -37,7 +36,7 @@ class CatchPhrase
 
         self::$current[getGroupId($ctx)] = $question;
 
-        return $ctx->sendPhoto(self::IMAGE_URL.$question['image']);
+        return $ctx->sendPhoto(self::IMAGE_URL.$question->image);
     }
 
     public function game(Context $ctx): void
@@ -54,10 +53,10 @@ class CatchPhrase
             $opt = ['reply_to_message_id' => $ctx->getMessage()?->getMessageId()];
 
             if ('skip' === $text) {
-                yield $ctx->sendMessage('Đáp án: '.$current['result']);
+                yield $ctx->sendMessage('Đáp án: '.$current->result);
 
                 self::changeQuestion($ctx);
-            } elseif (u($text)->ascii()->lower() == u($current['result'])->ascii()->lower()) {
+            } elseif (u($text)->ascii()->lower() == u($current->result)->ascii()->lower()) {
                 $name = $ctx->getMessage()?->getFrom()->getFirstName();
 
                 if (5214954937 === $ctx->getMessage()?->getFrom()->getId()) {

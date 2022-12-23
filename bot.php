@@ -10,10 +10,10 @@ use Zanzara\Zanzara;
 
 require __DIR__.'/vendor/autoload.php';
 
-/** @var list<array{image: string, result: string}> */
+/** @var list<array<string,string>> */
 $data = json_decode(file_get_contents(__DIR__.'/result.json'), true);
 shuffle($data);
-CatchPhrase::import($data);
+CatchPhrase::initialize($data);
 
 $config = new Config();
 $config->setLoop(ReactAdapter::get());
@@ -36,6 +36,5 @@ $bot->onCommand('admin', [CommandHandler::class, 'admin']);
 $bot->onCommand('cat', [CommandHandler::class, 'cat']);
 $bot->onText('tiktok {link}', [CommandHandler::class, 'tiktok']);
 $bot->onText('facebook {link}', [CommandHandler::class, 'facebook']);
-$bot->onText('xvideos', [CommandHandler::class, 'random_xvideos']);
 
 $bot->run();

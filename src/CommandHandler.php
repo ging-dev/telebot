@@ -102,37 +102,4 @@ class CommandHandler
                 );
             });
     }
-
-    public function random_xvideos(Context $ctx): void
-    {
-        /** @var array<string> */
-        static $groups = [];
-
-        $callback = asyncCoroutine(function () use ($ctx) {
-            /** @var array{title:string,low:string,thumb:string} */
-            $data = yield enqueueCallable('get_xvideos_last_month');
-
-            $ctx->sendPhoto($data['thumb'], ['caption' => $data['title']])
-                ->then(function () use ($ctx, $data) {
-                    $ctx->sendMessage(
-                        sprintf('<a href="%s">View this video</a>', $data['low']),
-                        ['parse_mode' => Config::PARSE_MODE_HTML]
-                    );
-                });
-            // This may be a problem if the video is too long
-            $ctx->sendVideo($data['low'], ['caption' => $data['title']]);
-        });
-
-        $callback();
-
-        $groupId = getGroupId($ctx);
-
-        if (in_array($groupId, $groups, true)) {
-            return;
-        }
-
-        $groups[] = $groupId;
-        Loop::repeat(30*60*1000, $callback);
-        $ctx->sendMessage('You will receive a random video every 30 minutes.');
-    }
 }

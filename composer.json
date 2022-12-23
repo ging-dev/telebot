@@ -7,10 +7,9 @@
         "cweagans/composer-patches": "^1.7",
         "symfony/string": "^6.0",
         "gingteam/tiktok": "dev-main",
-        "spiral/roadrunner": "v2.0",
         "amphp/react-adapter": "^2.1",
         "amphp/parallel": "^1.4",
-        "ging-dev/xvideos": "dev-main"
+        "eventsauce/object-hydrator": "^1.0"
     },
     "autoload": {
         "classmap": [
@@ -21,7 +20,7 @@
         ]
     },
     "require-dev": {
-        "vimeo/psalm": "^4.23",
+        "vimeo/psalm": "^5",
         "symplify/vendor-patches": "^10.2"
     },
     "extra": {
