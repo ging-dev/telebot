@@ -1,10 +1,13 @@
 <?php
 
-use EventSauce\ObjectHydrator\ObjectMapperUsingReflection;
-use Zanzara\Config;
 use function Amp\asyncCall;
+
+use EventSauce\ObjectHydrator\ObjectMapperUsingReflection;
 use React\Promise\PromiseInterface;
+
 use function Symfony\Component\String\u;
+
+use Zanzara\Config;
 use Zanzara\Context;
 
 class CatchPhrase

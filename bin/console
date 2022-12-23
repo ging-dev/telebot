@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 use Amp\ReactAdapter\ReactAdapter;
@@ -8,10 +9,10 @@ use Zanzara\Config;
 use Zanzara\Context;
 use Zanzara\Zanzara;
 
-require __DIR__.'/vendor/autoload.php';
+require dirname(__DIR__).'/vendor/autoload.php';
 
 /** @var list<array<string,string>> */
-$data = json_decode(file_get_contents(__DIR__.'/result.json'), true);
+$data = json_decode(file_get_contents(dirname(__DIR__).'/result.json'), true);
 shuffle($data);
 CatchPhrase::initialize($data);
 

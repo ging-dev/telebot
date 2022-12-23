@@ -1,13 +1,12 @@
 <?php
 
 use function Amp\asyncCall;
-use function Amp\asyncCoroutine;
 use function Amp\Parallel\Worker\enqueueCallable;
+
 use Psr\Http\Message\ResponseInterface;
 use Zanzara\Config;
 use Zanzara\Context;
 use Zanzara\Telegram\Type\ChatMember;
-use Amp\Loop;
 
 class CommandHandler
 {

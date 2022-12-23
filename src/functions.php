@@ -1,7 +1,5 @@
 <?php
 
-use GingDev\Xvideos\Detail;
-use Goutte\Client;
 use React\Http\Browser;
 use TikTok\Driver\FacebookDriver;
 use TikTok\Driver\SnaptikDriver;

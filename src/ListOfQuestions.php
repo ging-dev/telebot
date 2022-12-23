@@ -5,7 +5,8 @@ class ListOfQuestions
     /** @param array<Question> $questions */
     public function __construct(
         public array $questions
-    ) {}
+    ) {
+    }
 
     /**
      * @return Question|null
