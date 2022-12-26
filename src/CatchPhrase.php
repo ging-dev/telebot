@@ -10,21 +10,22 @@ use function Symfony\Component\String\u;
 use Zanzara\Config;
 use Zanzara\Context;
 
-class CatchPhrase
+final class CatchPhrase
 {
     private static ListOfQuestions $questions;
 
     /** @var array<string,Question> */
     private static array $currentQuestionOf = [];
 
-    public const IMAGE_URL = 'https://e.gamevui.vn/web/2014/10/batchu/assets/pics/';
+    /** @var array<string,int> */
+    public static array $scoreOf = [];
 
     /** @param list<array<string,string>> $data */
     public static function initialize(array $data): void
     {
         $questions = (new ObjectMapperUsingReflection())->hydrateObjects(Question::class, $data);
 
-        self::$questions = new ListOfQuestions($questions->toArray());
+        static::$questions = new ListOfQuestions($questions->toArray());
     }
 
     /**
@@ -38,14 +39,14 @@ class CatchPhrase
             return $ctx->sendMessage('Đã hết câu hỏi.');
         }
 
-        self::$currentQuestionOf[groupId($ctx)] = $question;
+        static::$currentQuestionOf[groupId($ctx)] = $question;
 
-        return $ctx->sendPhoto(self::IMAGE_URL.$question->image);
+        return $ctx->sendPhoto($question->getImage());
     }
 
     public function game(Context $ctx): void
     {
-        self::changeQuestion($ctx)->then(function () use ($ctx) {
+        static::changeQuestion($ctx)->then(function () use ($ctx) {
             $ctx->sendMessage('Bắt đầu Game!');
         });
     }
@@ -53,30 +54,34 @@ class CatchPhrase
     public function answer(Context $ctx, string $text): void
     {
         asyncCall(function () use ($ctx, $text) {
-            $current = self::$currentQuestionOf[groupId($ctx)];
+            $current = static::$currentQuestionOf[groupId($ctx)];
             $opt = [
                 'reply_to_message_id' => $ctx->getMessage()?->getMessageId(),
                 'parse_mode' => Config::PARSE_MODE_HTML,
             ];
 
             if ('skip' === $text) {
-                yield $ctx->sendMessage('Đáp án: '.$current->result);
+                yield $ctx->sendMessage('Đáp án: '.$current->getResult());
 
-                self::changeQuestion($ctx);
-            } elseif (u($text)->ascii()->lower() == u($current->result)->ascii()->lower()) {
+                static::changeQuestion($ctx);
+            } elseif (u($text)->ascii()->lower() == u($current->getResult())->ascii()->lower()) {
                 $user = $ctx->getMessage()?->getFrom();
+                $userId = userId($ctx);
 
-                if (5214954937 === $ctx->getMessage()?->getFrom()->getId()) {
-                    $message = 'Chồng yêu đã trả lời chính xác! 😍';
-                } else {
-                    $message = sprintf('Bạn %s đã trả lời chính xác! 😊', tagName($user));
+                if (!array_key_exists($userId, static::$scoreOf)) {
+                    static::$scoreOf[$userId] = 0;
                 }
+
+                ++static::$scoreOf[$userId];
+
+                $message = sprintf('Bạn %s đã trả lời chính xác! 😊', tagName($user));
 
                 yield $ctx->sendMessage($message, $opt);
 
-                self::changeQuestion($ctx);
+                static::changeQuestion($ctx);
             } else {
-                $ctx->sendMessage('Không chính xác...', $opt);
+                yield $ctx->sendMessage('Không chính xác...', $opt);
+                $ctx->sendMessage('Gợi ý: Đáp án bắt đầu bằng: '.substr($current->getResult(), 0, 1));
             }
         });
     }

@@ -1227,21 +1227,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gingteam/tiktok-downloader.git",
-                "reference": "8e884563c3672cde3a444ddbb150979399d652e4"
+                "reference": "8849cfa3b3fee5d510feb6f55503d74692758823"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gingteam/tiktok-downloader/zipball/8e884563c3672cde3a444ddbb150979399d652e4",
-                "reference": "8e884563c3672cde3a444ddbb150979399d652e4",
+                "url": "https://api.github.com/repos/gingteam/tiktok-downloader/zipball/8849cfa3b3fee5d510feb6f55503d74692758823",
+                "reference": "8849cfa3b3fee5d510feb6f55503d74692758823",
                 "shasum": ""
             },
             "require": {
-                "fabpot/goutte": "^4.0",
-                "mck89/peast": "^1.14"
+                "fabpot/goutte": "^4.0"
             },
             "require-dev": {
                 "pestphp/pest": "^1.21",
-                "vimeo/psalm": "^4.23"
+                "vimeo/psalm": "^5"
             },
             "default-branch": true,
             "type": "library",
@@ -1265,7 +1264,7 @@
                 "issues": "https://github.com/gingteam/tiktok-downloader/issues",
                 "source": "https://github.com/gingteam/tiktok-downloader/tree/main"
             },
-            "time": "2022-12-12T04:09:45+00:00"
+            "time": "2022-12-24T03:03:58+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -1395,56 +1394,6 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.7.6"
             },
             "time": "2022-08-18T16:18:26+00:00"
-        },
-        {
-            "name": "mck89/peast",
-            "version": "v1.15.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mck89/peast.git",
-                "reference": "733cd8f62dcb8239094688063a92766bbfcbf523"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mck89/peast/zipball/733cd8f62dcb8239094688063a92766bbfcbf523",
-                "reference": "733cd8f62dcb8239094688063a92766bbfcbf523",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.15.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Peast\\": "lib/Peast/",
-                    "Peast\\test\\": "test/Peast/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Marchiò",
-                    "email": "marco.mm89@gmail.com"
-                }
-            ],
-            "description": "Peast is PHP library that generates AST for JavaScript code",
-            "support": {
-                "issues": "https://github.com/mck89/peast/issues",
-                "source": "https://github.com/mck89/peast/tree/v1.15.0"
-            },
-            "time": "2022-09-13T15:56:53+00:00"
         },
         {
             "name": "netresearch/jsonmapper",

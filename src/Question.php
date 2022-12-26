@@ -2,9 +2,21 @@
 
 class Question
 {
+    private const IMAGE_URL = 'https://e.gamevui.vn/web/2014/10/batchu/assets/pics/';
+
     public function __construct(
-        public readonly string $image,
-        public readonly string $result
+        private readonly string $image,
+        private readonly string $result
     ) {
+    }
+
+    public function getImage(): string
+    {
+        return self::IMAGE_URL.$this->image;
+    }
+
+    public function getResult(): string
+    {
+        return $this->result;
     }
 }
